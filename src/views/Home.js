@@ -1,6 +1,7 @@
 import React from "react";
 import moviesData from "../data/movies.json";
 import MovieCard from "../components/MovieCard";
+import MovieForm from "../components/MovieForm";
 
 const URL = "https://api.themoviedb.org/3/movie/popular?";
 const API_KEY = "api_key=ac2219349339922dfc79ab548de5ce10";
@@ -10,6 +11,16 @@ class Home extends React.Component {
   state = {
     ...moviesData
   };
+
+  addMovie = (movie) => {
+    console.log('Movie ====', movie);
+
+    // const MOVIES = this.state.movies;
+    // MOVIES.push(movie);
+    // this.setState({ MOVIES })
+
+    this.setState({ movies: [...this.state.movies, movie] })
+  }
 
   deleteMovie = movieId => {
     this.setState((state, props) => {
@@ -25,7 +36,7 @@ class Home extends React.Component {
       .then(res => res.json())
       .then(data => {
         console.log(data);
-        const tenMovies = data.results.slice(0,10);
+        const tenMovies = data.results.slice(0, 10);
         this.setState({ movies: tenMovies });
       });
   }
@@ -36,6 +47,7 @@ class Home extends React.Component {
       <div>
         <h1 className="main-title">Movie App</h1>
         <div className="content">
+          <MovieForm onSubmit={this.addMovie} />
           {movies.map(movie => (
             <MovieCard
               deleteMovie={this.deleteMovie}
