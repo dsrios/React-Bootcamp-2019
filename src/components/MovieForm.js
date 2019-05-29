@@ -2,14 +2,22 @@ import React, { Component } from 'react';
 
 class MovieForm extends Component {
 
-    state = {
-        id: '',
-        title: '',
-        year: '',
-        image: '',
-        genre: '',
-        overview: ''
-    };
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            id: '',
+            title: '',
+            year: '',
+            image: '',
+            genre: '',
+            overview: ''
+        };
+
+        this.yearRef = React.createRef();
+    }
+
+
 
     handleChange = (e) => {
         const name = e.target.name;
@@ -29,11 +37,20 @@ class MovieForm extends Component {
 
     }
 
+    componentDidMount() {
+
+        // nunca hacer esto en React !!! 
+        // --> const movieID = window.document.getElementById('movieId').value = '1991';
+
+        // Do not it always, this is the correct way to access the DOM.
+        this.yearRef.current.focus();
+    }
+
     render() {
         return <form className="searchForm" onSubmit={this.handleSubmit}>
             <input value={this.state.id} name="id" placeholder='id' onChange={this.handleChange} />
             <input value={this.state.title} name="title" placeholder='title' onChange={this.handleChange} />
-            <input value={this.state.year} name="year" placeholder='year' onChange={this.handleChange} />
+            <input value={this.state.year} ref={this.yearRef} name="year" placeholder='year' onChange={this.handleChange} />
             <input value={this.state.image} name="image" placeholder='image' onChange={this.handleChange} />
             <input value={this.state.genre} name="genre" placeholder='genre' onChange={this.handleChange} />
             <input value={this.state.overview} name="overview" placeholder='overview' onChange={this.handleChange} />
