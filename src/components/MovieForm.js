@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import MainLayout from '../layouts/MainLayout';
 
 class MovieForm extends Component {
 
@@ -47,15 +48,20 @@ class MovieForm extends Component {
     }
 
     render() {
-        return <form className="searchForm" onSubmit={this.handleSubmit}>
-            <input value={this.state.id} name="id" placeholder='id' onChange={this.handleChange} />
-            <input value={this.state.title} name="title" placeholder='title' onChange={this.handleChange} />
-            <input value={this.state.year} ref={this.yearRef} name="year" placeholder='year' onChange={this.handleChange} />
-            <input value={this.state.image} name="image" placeholder='image' onChange={this.handleChange} />
-            <input value={this.state.genre} name="genre" placeholder='genre' onChange={this.handleChange} />
-            <input value={this.state.overview} name="overview" placeholder='overview' onChange={this.handleChange} />
-            <input type="submit" value="save" />
-        </form >
+        console.log('All data for params', this.props);
+        console.log('Data for params', this.props.location.pathname);
+        
+        return <MainLayout>
+            <form className="searchForm" onSubmit={this.handleSubmit}>
+                <input value={this.state.id} name="id" placeholder='id' onChange={this.handleChange} />
+                <input value={this.state.title} name="title" placeholder='title' onChange={this.handleChange} />
+                <input value={this.state.year} ref={this.yearRef} name="year" placeholder='year' onChange={this.handleChange} />
+                <input value={this.state.image} name="image" placeholder='image' onChange={this.handleChange} />
+                <input value={this.state.genre} name="genre" placeholder='genre' onChange={this.handleChange} />
+                <input value={this.state.overview} name="overview" placeholder='overview' onChange={this.handleChange} />
+                <input type="submit" value="save" />
+            </form >
+        </MainLayout>
     }
 
 }

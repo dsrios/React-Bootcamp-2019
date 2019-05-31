@@ -1,7 +1,10 @@
 import React from "react";
 import moviesData from "../data/movies.json";
 import MovieCard from "../components/MovieCard";
-import MovieForm from "../components/MovieForm";
+
+import MainLayout from '../layouts/MainLayout';
+
+// import MovieForm from "../components/MovieForm";
 import MovieSearch from "../components/MovieSearch";
 import Axios from "axios";
 
@@ -20,9 +23,9 @@ class Home extends React.Component {
     details: ''
   };
 
- 
 
-  
+
+
 
   getDetails = (movieId) => {
     // https://api.themoviedb.org/3/movie/343611?api_key={api_key}
@@ -33,7 +36,7 @@ class Home extends React.Component {
 
         if (res.status === 200) {
           const MOVIE_DETAILS = res.data;
-          const GENRES = MOVIE_DETAILS.genres;   
+          const GENRES = MOVIE_DETAILS.genres;
           // console.log('Details from movies ===>', GENRES);
           this.setState({ details: GENRES });
         }
@@ -96,26 +99,38 @@ class Home extends React.Component {
   render() {
     const { movies } = this.state;
     const details = this.state.details;
-    
-    console.log('Data in the render ==>', details );
-    
+    console.log('Data in the render ==>', details);
 
-    return (
-      <div>
-        <h1 className="main-title">Movie App</h1>
-        <div className="content">
-          {/* <MovieForm onSubmit={this.addMovie} /> */}
-          <MovieSearch onSubmit={this.findMovie} />
-          {movies.map( (movie, index) => (
-            <MovieCard
-              deleteMovie={this.deleteMovie}
-              key={movie.id}
-              {...movie}              
-            />
-          ))}          
-        </div>
-      </div>
-    );
+
+    return <React.Fragment>
+      <MainLayout>
+      <MovieSearch onSubmit={this.findMovie} />
+        {movies.map((movie, index) => (
+          <MovieCard
+            deleteMovie={this.deleteMovie}
+            key={movie.id}
+            {...movie}
+          />
+        ))}
+      </MainLayout>
+    </React.Fragment>
+
+    // changes for router
+    // <div>
+    //   <h1 className="main-title">Movie App</h1>
+    //   <div className="content">
+    //     {/* <MovieForm onSubmit={this.addMovie} /> */}
+    //     <MovieSearch onSubmit={this.findMovie} />
+    //     {movies.map( (movie, index) => (
+    //       <MovieCard
+    //         deleteMovie={this.deleteMovie}
+    //         key={movie.id}
+    //         {...movie}              
+    //       />
+    //     ))}          
+    //   </div>
+    // </div>
+
   }
 }
 
