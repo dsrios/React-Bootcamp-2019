@@ -8,6 +8,9 @@ import MainLayout from '../layouts/MainLayout';
 import MovieSearch from "../components/MovieSearch";
 import Axios from "axios";
 
+import WithAuth from '../enhancers/withAuth';
+import AuthProvider from "../enhancers/AuthProvider.js";
+
 const URL = "https://api.themoviedb.org/3/";
 const POPULATE = "movie/popular";
 const SEARCH = "search/movie";
@@ -16,15 +19,15 @@ const API_KEY = "?api_key=ac2219349339922dfc79ab548de5ce10";
 // const ALL_PATH = 'https://api.themoviedb.org/3/movie/popular?api_key=ac2219349339922dfc79ab548de5ce10';
 // Details https://api.themoviedb.org/3/movie/343611?api_key={api_key}
 
+const WelcomeText = ({ isAuth }) => {
+  return <h1>{isAuth ? 'Welcome Home' : 'Go Away \n No username on local Storage'}</h1>
+}
 
 class Home extends React.Component {
   state = {
     ...moviesData,
     details: ''
   };
-
-
-
 
 
   getDetails = (movieId) => {
@@ -96,24 +99,30 @@ class Home extends React.Component {
       });
   }
 
+
   render() {
     const { movies } = this.state;
     const details = this.state.details;
     console.log('Data in the render ==>', details);
+    // const {isAuth} = this.props; use with HOC
 
 
-    return <React.Fragment>
-      <MainLayout>
-      <MovieSearch onSubmit={this.findMovie} />
-        {movies.map((movie, index) => (
-          <MovieCard
-            deleteMovie={this.deleteMovie}
-            key={movie.id}
-            {...movie}
-          />
-        ))}
-      </MainLayout>
-    </React.Fragment>
+    return <AuthProvider render={(isAuth) =>
+      <React.Fragment>
+        <WelcomeText isAuth={isAuth} />
+        <MainLayout>
+          <MovieSearch onSubmit={this.findMovie} />
+          {movies.map((movie, index) => (
+            <MovieCard
+              deleteMovie={this.deleteMovie}
+              key={movie.id}
+              {...movie}
+            />
+          ))}
+        </MainLayout>
+      </React.Fragment>
+    } />
+
 
     // changes for router
     // <div>
@@ -134,4 +143,8 @@ class Home extends React.Component {
   }
 }
 
-export default Home;
+// export default Home;
+// Use this way to call HOC component (WithAuth)
+// export default WithAuth(Home);
+
+export default Home; // With AuthProvider
