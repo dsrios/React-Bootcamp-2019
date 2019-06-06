@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang='>
+  <head>
+    <meta charset='utf-8' />
+    <meta http-equiv='X-UA-Compatible' content='IE=edge' />
+    <meta name='viewport' content='width=device-width, initial-scale=1' />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/redux/3.6.0/redux.min.js"></script>
+    <title>Redux Core</title>
+
+    <!-- Bootstrap CSS -->
+    <!-- <link
+      href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css'
+      rel='stylesheet'
+    /> -->
+  </head>
+  <body>
+    <h1 class='text-center'>Redux Example Library</h1>
+
+    <div>Counter <span id='counter'></span></div>
+    <button id='inc'>Increment</button>
+    <button id='dec'>Decrement</button> 
+    
+    <script>
+        
+        function reducer(state, action) {
+            switch (action.type) {
+            case 'INC':
+                return { ...state, counter: state.counter + 1 };
+
+            case 'DEC':
+                return { ...state, counter: state.counter - 1 };
+
+            default:
+                return state;
+            }
+        }
+
+        const initialState = {
+            counter : 0
+        }
+
+        const store = Redux.createStore(reducer, initialState)
+
+        function updateView () {
+            document.querySelector('#counter').innerText = store.getState().counter;
+        }
+
+        store.subscribe(updateView);
+
+        document.getElementById('inc').onclick = () => store.dispatch({ type: 'INC'});
+        document.getElementById('dec').onclick = () => store.dispatch({ type: 'DEC'});
+    </script>
+  </body>
+</html>

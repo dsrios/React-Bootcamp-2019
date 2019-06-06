@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang='>
+  <head>
+    <meta charset='utf-8' />
+    <meta http-equiv='X-UA-Compatible' content='IE=edge' />
+    <meta name='viewport' content='width=device-width, initial-scale=1' />
+    <title>Redux Core</title>
+
+    <!-- Bootstrap CSS -->
+    <!-- <link
+      href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css'
+      rel='stylesheet'
+    /> -->
+  </head>
+  <body>
+    <h1 class='text-center'>Redux Example</h1>
+
+    <div>Counter <span id='counter'></span></div>
+    <button id='inc'>Increment</button>
+    <button id='dec'>Decrement</button>
+
+    <!-- jQuery -->
+    <!-- <script src='https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js'></script> -->
+    <!-- Bootstrap JavaScript -->
+    <!-- <script src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js'></script> -->
+    <script>
+      let state = {
+        counter: 0
+      };
+
+      function reducer(state, action) {
+        switch (action) {
+          case 'INC':
+            return { ...state, counter: state.counter + 1 };
+
+          case 'DEC':
+            return { ...state, counter: state.counter - 1 };
+
+          default:
+            return state;
+        }
+      }
+
+      document.getElementById('inc').onclick = () => dispatch('INC');
+      document.getElementById('dec').onclick = () => dispatch('DEC');
+
+      const listeners = [];
+      function dispatch(action) {
+        const newState = reducer(state, action);
+
+        if (newState !== state) {
+          state = newState;
+          listeners.forEach(listener => listener());
+        }
+      }
+
+      function subscribe(callback) {
+        listeners.push(callback);
+      }
+
+      function updateView() {
+        document.querySelector('#counter').innerText = state.counter;
+        // document.getElementById('counter').innerText = state.counter;
+      }
+
+      subscribe(updateView);
+    </script>
+  </body>
+</html>
