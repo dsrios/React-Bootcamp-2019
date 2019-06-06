@@ -1,4 +1,5 @@
-import movies from './movies'
-export default {
-    movies
-}
+import { combineReducers } from 'redux';
+import movies from './movies';
+import users from './user';
+
+export default combineReducers ({ movies, users })

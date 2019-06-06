@@ -1,0 +1,26 @@
+{
+    "users": [{
+        "id": 2001,
+         "firstName": "Diego",
+         "lastName": "Rios",
+         "email": "asd@gmail.com",
+         "password": "cualquiera1",
+         "genre": "M"
+     },
+     {
+        "id": 2002,
+         "firstName": "Leonor",
+         "lastName": "Rios",
+         "email": "leonor@gmail.com",
+         "password": "cualquiera2",
+         "genre": "F"
+     },
+     {
+        "id": 2003,
+         "firstName": "Julian",
+         "lastName": "Rios",
+         "email": "asd@gmail.com",
+         "password": "cualquiera3",
+         "genre": "M"
+     }]
+ }

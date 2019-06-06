@@ -1,10 +1,12 @@
-import movies from '../data';
+import initialState from './initialState'
+import {REQUEST_MOVIES} from '../actions/actionsTypes'
+import movies from '../data/movies';
 
-export default (state, action) => {
-    switch (actions.type) {
+export default (state = initialState.movies, action) => {
+    switch (action.type) {
         case REQUEST_MOVIES:
-            return { ...state}
+            return { ...state, data: movies.movies}
         default:
-            break;
+            return state
     }
 }

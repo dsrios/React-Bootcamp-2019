@@ -1,5 +1,5 @@
 import React from "react";
-import moviesData from "../data/movies.json";
+// import moviesData from "../data/movies.json";
 import MovieCard from "../components/MovieCard";
 
 import MainLayout from '../layouts/MainLayout';
@@ -10,6 +10,9 @@ import Axios from "axios";
 
 import WithAuth from '../enhancers/withAuth';
 import AuthProvider from "../enhancers/AuthProvider.js";
+
+import requestMovies from '../actions/movies';
+import requestUsers from '../actions/users';
 
 const URL = "https://api.themoviedb.org/3/";
 const POPULATE = "movie/popular";
@@ -25,7 +28,7 @@ const WelcomeText = ({ isAuth }) => {
 
 class Home extends React.Component {
   state = {
-    ...moviesData,
+    // ...moviesData,
     details: ''
   };
 
@@ -89,19 +92,26 @@ class Home extends React.Component {
     });
   };
 
+  // componentDidMount() {
+  //   fetch(`${URL}${POPULATE}${API_KEY}`)
+  //     .then(res => res.json())
+  //     .then(data => {
+  //       console.log(data);
+  //       const tenMovies = data.results.slice(0, 5);
+  //       this.setState({ movies: tenMovies });
+  //     });
+  // }
+
+  // with redux
   componentDidMount() {
-    fetch(`${URL}${POPULATE}${API_KEY}`)
-      .then(res => res.json())
-      .then(data => {
-        console.log(data);
-        const tenMovies = data.results.slice(0, 5);
-        this.setState({ movies: tenMovies });
-      });
+    // this.props.requestMovies();
+    this.props.requestUsers();
   }
 
 
   render() {
-    const { movies } = this.state;
+    // const { movies } = this.state;
+    const { movies } = this.props;
     const details = this.state.details;
     console.log('Data in the render ==>', details);
     // const {isAuth} = this.props; use with HOC
@@ -109,10 +119,11 @@ class Home extends React.Component {
 
     return <AuthProvider render={(isAuth) =>
       <React.Fragment>
+        <button onClick={this.props.requestMovies}>Fetch Movies</button>
         <WelcomeText isAuth={isAuth} />
         <MainLayout>
           <MovieSearch onSubmit={this.findMovie} />
-          {movies.map((movie, index) => (
+          {movies.data.map((movie, index) => (
             <MovieCard
               deleteMovie={this.deleteMovie}
               key={movie.id}
